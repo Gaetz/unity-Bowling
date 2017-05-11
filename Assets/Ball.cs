@@ -7,7 +7,7 @@ public class Ball : MonoBehaviour {
     /// <summary>
     /// Launch ball speed
     /// </summary>
-    public float LaunchSpeed;
+    public Vector3 LaunchVelocity;
 
     private Rigidbody rigidBody;
     private AudioSource ballAudioSource;
@@ -23,7 +23,7 @@ public class Ball : MonoBehaviour {
     private void LaunchBall()
     {
         // Initial speed
-        rigidBody.velocity = new Vector3(0, 0, LaunchSpeed);
+        rigidBody.velocity = LaunchVelocity;
         // Sound
         ballAudioSource.Play();
     }
