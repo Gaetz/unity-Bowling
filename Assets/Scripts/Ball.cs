@@ -9,6 +9,19 @@ public class Ball : MonoBehaviour {
     /// </summary>
     public Vector3 LaunchVelocity;
 
+    /// <summary>
+    /// True when ball is launch
+    /// </summary>
+    public bool IsBallLaunch
+    {
+        get
+        {
+            return isBallLaunch;
+        }
+    }
+    private bool isBallLaunch;
+
+
     private Rigidbody rigidBody;
     private AudioSource ballAudioSource;
 
@@ -19,11 +32,12 @@ public class Ball : MonoBehaviour {
         ballAudioSource = GetComponent<AudioSource>();
 
         rigidBody.useGravity = false;
-        //LaunchBall(LaunchVelocity);
+        isBallLaunch = false;
     }
 
     public void LaunchBall(Vector3 velocity)
     {
+        isBallLaunch = true;
         // Activate gravity
         rigidBody.useGravity = true;
         // Initial speed
