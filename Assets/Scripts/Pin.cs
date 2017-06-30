@@ -8,17 +8,17 @@ public class Pin : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+
+    }
 
     public bool IsStanding()
     {
-        return Mathf.Abs(transform.rotation.eulerAngles.x) < StandingThreshold
-            && Mathf.Abs(transform.rotation.eulerAngles.z) < StandingThreshold;
+        return (Mathf.Abs(transform.rotation.eulerAngles.x) < StandingThreshold || Mathf.Abs(transform.rotation.eulerAngles.x) > 360 - StandingThreshold)
+            && (Mathf.Abs(transform.rotation.eulerAngles.z) < StandingThreshold || Mathf.Abs(transform.rotation.eulerAngles.z) > 360 - StandingThreshold);
     }
 }
