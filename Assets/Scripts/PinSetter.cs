@@ -7,14 +7,19 @@ public class PinSetter : MonoBehaviour {
 
     public Text StandingDisplay;
 
-	// Use this for initialization
+    bool hasBallEntered = false;
+	
+    // Use this for initialization
 	void Start () {
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        StandingDisplay.text = CountStandingPins().ToString();
+        if (hasBallEntered)
+        {
+            StandingDisplay.text = CountStandingPins().ToString();
+        }
     }
 
     public int CountStandingPins()
@@ -26,5 +31,22 @@ public class PinSetter : MonoBehaviour {
                 standingCount++;
         }
         return standingCount;
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.GetComponent<Ball>())
+        {
+            hasBallEntered = true;
+            StandingDisplay.color = new Color(1, 0, 0);
+        }
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.GetComponentInParent<Pin>())
+        {
+            Destroy(collider.transform.parent.gameObject);
+        }
     }
 }
