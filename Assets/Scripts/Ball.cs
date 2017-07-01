@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ public class Ball : MonoBehaviour {
     }
     private bool isBallLaunch;
 
+    private Vector3 startPosition;
 
     private Rigidbody rigidBody;
     private AudioSource ballAudioSource;
@@ -33,6 +35,7 @@ public class Ball : MonoBehaviour {
 
         rigidBody.useGravity = false;
         isBallLaunch = false;
+        startPosition = transform.position;
     }
 
     public void LaunchBall(Vector3 velocity)
@@ -50,4 +53,13 @@ public class Ball : MonoBehaviour {
     void Update () {
 		
 	}
+
+    public void Reset()
+    {
+        isBallLaunch = false;
+        transform.position = startPosition;
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.angularVelocity = Vector3.zero;
+        rigidBody.useGravity = false;
+    }
 }

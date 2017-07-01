@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,12 +7,16 @@ using UnityEngine.UI;
 public class PinSetter : MonoBehaviour {
 
     public Text StandingDisplay;
+    public int LastStandingCount = -1;
+    public float SettleTime;
 
-    bool hasBallEntered = false;
-	
+    private bool hasBallEntered = false;
+    private float lastChangeTime;
+    private Ball ball;
+
     // Use this for initialization
 	void Start () {
-		
+        ball = GameObject.FindObjectOfType<Ball>();
 	}
 	
 	// Update is called once per frame
@@ -19,7 +24,33 @@ public class PinSetter : MonoBehaviour {
         if (hasBallEntered)
         {
             StandingDisplay.text = CountStandingPins().ToString();
+            CheckStanding();
         }
+    }
+
+    void CheckStanding()
+    {
+        int currentStanding = CountStandingPins();
+        // Update LastStandingCount
+        if(currentStanding != LastStandingCount)
+        {
+            lastChangeTime = Time.time;
+            LastStandingCount = currentStanding;
+            return;
+        }
+        // Call HavePinSettled() when they do;
+        if(Time.time - lastChangeTime > SettleTime)
+        {
+            HavePinSettled();
+        }
+    }
+
+    private void HavePinSettled()
+    {
+        LastStandingCount = -1;
+        hasBallEntered = false;
+        StandingDisplay.color = new Color(0, 1, 0);
+        ball.Reset();
     }
 
     public int CountStandingPins()
