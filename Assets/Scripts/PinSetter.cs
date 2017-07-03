@@ -10,6 +10,7 @@ public class PinSetter : MonoBehaviour {
     public int LastStandingCount = -1;
     public float SettleTime;
     public float DistanceToRaise = 0.1f;
+    public GameObject PinSet;
 
     private bool hasBallEntered = false;
     private float lastChangeTime;
@@ -53,7 +54,12 @@ public class PinSetter : MonoBehaviour {
 
     public void RenewPins()
     {
-
+        GameObject newPins = Instantiate(PinSet);
+        foreach (Pin pin in GameObject.FindObjectsOfType<Pin>())
+        {
+            pin.GetComponent<Rigidbody>().isKinematic = true;
+        }
+        newPins.transform.position += new Vector3(0, DistanceToRaise, 0);
     }
 
     void CheckStanding()
