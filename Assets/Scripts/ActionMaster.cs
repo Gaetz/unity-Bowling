@@ -54,25 +54,26 @@ public class ActionMaster {
             else return Action.EndGame;
         }
 
-        if (pins == 10)
+
+        // First bowl in each frame
+        if(bowlIndex % 2 != 0)
         {
-            bowlIndex += 2;
-            return Action.EndTurn;
-        }
-        else
-        {
-            // End frame
-            if(bowlIndex % 2 == 0)
+            if (pins == 10)
             {
-                bowlIndex += 1;
+                bowlIndex += 2;
                 return Action.EndTurn;
             }
-            // Mid frame or last frame
             else
             {
                 bowlIndex += 1;
                 return Action.Tidy;
             }
+        }
+        // Second bowl in each frame
+        else
+        {
+            bowlIndex += 1;
+            return Action.EndTurn;
         }
         // Other Behaviour
         throw new Exception("Should return an action, but don't know which.");
