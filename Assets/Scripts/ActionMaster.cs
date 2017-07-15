@@ -31,14 +31,27 @@ public class ActionMaster {
             return Action.EndGame;
         }
 
-        if(bowlIndex >= 19 && IsBowl21Awarded())
+        if(bowlIndex == 19 && pins == 10)
         {
             bowlIndex += 1;
             return Action.Reset;
         }
-        else if (bowlIndex == 20 && !IsBowl21Awarded())
+        else if (bowlIndex == 20)
         {
-            return Action.EndGame;
+            bowlIndex += 1;
+            if(bowls[19 - 1] == 10 && bowls[20 - 1] != 10)
+            {
+                return Action.Tidy;
+            }
+            else if (AreAllPinsKnockedDown())
+            {
+                return Action.Reset;
+            }
+            else if (IsBowl21Awarded())
+            {
+                return Action.Tidy;
+            }
+            else return Action.EndGame;
         }
 
         if (pins == 10)
@@ -65,8 +78,13 @@ public class ActionMaster {
         throw new Exception("Should return an action, but don't know which.");
     }
 
+    private bool AreAllPinsKnockedDown()
+    {
+        return (bowls[19 - 1] + bowls[20 - 1]) == 20 || (bowls[19 - 1] + bowls[20 - 1]) == 10;
+    }
+
     private bool IsBowl21Awarded()
     {
-        return bowls[19 - 1] + bowls[20 - 1] >= 10;
+        return bowls[19 - 1] + bowls[20 - 1] > 10;
     }
 }

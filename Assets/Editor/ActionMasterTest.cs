@@ -59,7 +59,7 @@ public class ActionMasterTests
     [Test]
     public void T05_CheckResetAtSpareInLastFrame()
     {
-        int[] rolls = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        int[] rolls = { 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1 };
         foreach (int roll in rolls)
         {
             actionMaster.Bowl(roll);
@@ -70,7 +70,7 @@ public class ActionMasterTests
     [Test]
     public void T06_EndGame()
     {
-        int[] rolls = { 8,2 ,7,3,3,4,10,2,8,10,10,8,0,10,8,2 };
+        int[] rolls = { 8,2, 7,3, 3,4, 10,2, 8,10, 10,8, 0,10, 8,2 };
         foreach (int roll in rolls)
         {
             actionMaster.Bowl(roll);
@@ -81,11 +81,33 @@ public class ActionMasterTests
     [Test]
     public void T07_GameEndAtBowl20()
     {
-        int[] rolls = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        int[] rolls = { 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1 };
         foreach (int roll in rolls)
         {
             actionMaster.Bowl(roll);
         }
         Assert.AreEqual(endGame, actionMaster.Bowl(8));
+    }
+
+    [Test]
+    public void T08_TidyAtBowl20()
+    {
+        int[] rolls = { 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 10 };
+        foreach (int roll in rolls)
+        {
+            actionMaster.Bowl(roll);
+        }
+        Assert.AreEqual(tidy, actionMaster.Bowl(5));
+    }
+
+    [Test]
+    public void T09_TidyFromStrikeThen0()
+    {
+        int[] rolls = { 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 1,1, 10 };
+        foreach (int roll in rolls)
+        {
+            actionMaster.Bowl(roll);
+        }
+        Assert.AreEqual(tidy, actionMaster.Bowl(0));
     }
 }
