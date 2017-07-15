@@ -15,9 +15,13 @@ public class PinSetter : MonoBehaviour {
     private bool hasBallEntered = false;
     private float lastChangeTime;
     private Ball ball;
+    private int lastSettledCount = 10;
+    private ActionMaster actionMaster = new ActionMaster();
+    private Animator animator;
 
     // Use this for initialization
 	void Start () {
+        animator = GetComponent<Animator>();
         ball = GameObject.FindObjectOfType<Ball>();
 	}
 	
@@ -81,6 +85,23 @@ public class PinSetter : MonoBehaviour {
 
     private void HavePinSettled()
     {
+        int standingPinsCount = CountStandingPins();
+        int pinFall = lastSettledCount - standingPinsCount;
+        lastSettledCount = standingPinsCount;
+        switch(actionMaster.Bowl(pinFall))
+        {
+            case ActionMaster.Action.Tidy:
+                animator.SetTrigger("tidyTrigger");
+                break;
+            case ActionMaster.Action.Reset:
+            case ActionMaster.Action.EndTurn:
+                animator.SetTrigger("resetTrigger");
+                lastSettledCount = 10;
+                break;
+            case ActionMaster.Action.EndGame:
+                throw new UnityException("Game is over, but we don't know what to do.");
+        }
+
         LastStandingCount = -1;
         hasBallEntered = false;
         StandingDisplay.color = new Color(0, 1, 0);
