@@ -43,6 +43,7 @@ public class PinSetter : MonoBehaviour {
             {
                 pin.GetComponent<Rigidbody>().isKinematic = true;
                 pin.transform.Translate(new Vector3(0, DistanceToRaise, 0), Space.World);
+                pin.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
     }

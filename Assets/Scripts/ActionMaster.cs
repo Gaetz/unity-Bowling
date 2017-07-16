@@ -75,8 +75,6 @@ public class ActionMaster {
             bowlIndex += 1;
             return Action.EndTurn;
         }
-        // Other Behaviour
-        throw new Exception("Should return an action, but don't know which.");
     }
 
     private bool AreAllPinsKnockedDown()
