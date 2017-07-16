@@ -132,4 +132,15 @@ public class ActionMasterTests
         Assert.AreEqual(reset, actionMaster.Bowl(10));
         Assert.AreEqual(endGame, actionMaster.Bowl(10));
     }
+
+    [Test]
+    public void T12_0Then1()
+    {
+        int[] rolls = { 0 };
+        foreach (int roll in rolls)
+        {
+            actionMaster.Bowl(roll);
+        }
+        Assert.AreEqual(endTurn, actionMaster.Bowl(1));
+    }
 }

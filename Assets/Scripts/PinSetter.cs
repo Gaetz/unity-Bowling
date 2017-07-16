@@ -11,8 +11,8 @@ public class PinSetter : MonoBehaviour {
     public float SettleTime;
     public float DistanceToRaise = 0.1f;
     public GameObject PinSet;
+    public bool IsBallOutOfPlay = false;
 
-    private bool hasBallEntered = false;
     private float lastChangeTime;
     private Ball ball;
     private int lastSettledCount = 10;
@@ -27,8 +27,9 @@ public class PinSetter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (hasBallEntered)
+        if (IsBallOutOfPlay)
         {
+            StandingDisplay.color = Color.red;
             StandingDisplay.text = CountStandingPins().ToString();
             UpdateCheckStanding();
         }
@@ -103,7 +104,7 @@ public class PinSetter : MonoBehaviour {
         }
 
         LastStandingCount = -1;
-        hasBallEntered = false;
+        IsBallOutOfPlay = false;
         StandingDisplay.color = new Color(0, 1, 0);
         ball.Reset();
     }
@@ -117,14 +118,5 @@ public class PinSetter : MonoBehaviour {
                 standingCount++;
         }
         return standingCount;
-    }
-
-    private void OnTriggerEnter(Collider collider)
-    {
-        if (collider.GetComponent<Ball>())
-        {
-            hasBallEntered = true;
-            StandingDisplay.color = new Color(1, 0, 0);
-        }
     }
 }

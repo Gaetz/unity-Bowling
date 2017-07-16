@@ -37,6 +37,6 @@ public class DragLaunch : MonoBehaviour {
         float launchVelocityZ = (Input.mousePosition.y - startPosition.y) / launchDuration;
 
         // Launch ball
-        ball.LaunchBall(new Vector3(launchVelocityX, 0, launchVelocityZ * 2));
+        ball.LaunchBall(new Vector3(launchVelocityX, 0, launchVelocityZ));
     }
 }
