@@ -39,7 +39,7 @@ public class ScoreDisplay : MonoBehaviour {
         {
             int box = output.Length + 1;
             // Spare
-            if (box % 2 == 0 && rolls[i-1] + rolls[i] == 10)
+            if ((box % 2 == 0 || box == 21) && rolls[i-1] + rolls[i] == 10)
             {
                 output += "/";
             }
