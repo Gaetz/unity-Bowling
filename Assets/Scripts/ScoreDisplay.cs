@@ -14,11 +14,6 @@ public class ScoreDisplay : MonoBehaviour {
         foreach (Text display in frameTexts)
             display.text = "";
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void FillRollCard(List<int> rolls)
     {
@@ -40,7 +35,35 @@ public class ScoreDisplay : MonoBehaviour {
     public static string FormatRolls(List<int> rolls)
     {
         string output = "";
-
+        for (int i = 0; i < rolls.Count; i++)
+        {
+            int box = output.Length + 1;
+            // Spare
+            if (box % 2 == 0 && rolls[i-1] + rolls[i] == 10)
+            {
+                output += "/";
+            }
+            // Strike in frame 10
+            else if (box >= 19 && rolls[i] == 10)
+            {
+                output += "X";
+            }
+            // Strike elsewhere
+            else if (rolls[i] == 10)
+            {
+                output += "X ";
+            }
+            // Zeros
+            else if (rolls[i] == 0)
+            {
+                output += "-";
+            }
+            // Normal shot
+            else
+            {
+                output += rolls[i].ToString();
+            }
+        }
         return output;
     }
 }
