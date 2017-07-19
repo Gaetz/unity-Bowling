@@ -19,4 +19,9 @@ public class ScoreDisplay : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void FillRollCard(List<int> rolls)
+    {
+        rolls[-1] = 1;
+    }
 }

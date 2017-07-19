@@ -56,19 +56,19 @@ public class PinSetter : MonoBehaviour {
         newPins.transform.position += new Vector3(0, DistanceToRaise, 0);
     }
 
-    public void PerformAction(ActionMaster.Action action)
+    public void PerformAction(ActionMasterOld.Action action)
     {
         switch (action)
         {
-            case ActionMaster.Action.Tidy:
+            case ActionMasterOld.Action.Tidy:
                 animator.SetTrigger("tidyTrigger");
                 break;
-            case ActionMaster.Action.Reset:
-            case ActionMaster.Action.EndTurn:
+            case ActionMasterOld.Action.Reset:
+            case ActionMasterOld.Action.EndTurn:
                 animator.SetTrigger("resetTrigger");
                 pinCounter.Reset();
                 break;
-            case ActionMaster.Action.EndGame:
+            case ActionMasterOld.Action.EndGame:
                 throw new UnityException("Game is over, but we don't know what to do.");
         }
     }

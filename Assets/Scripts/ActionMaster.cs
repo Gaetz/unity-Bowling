@@ -1,101 +1,41 @@
-﻿using System;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class ActionMaster {
-
-    public enum Action
-    {
-        Tidy,
-        Reset,
-        EndTurn,
-        EndGame
-    }
-
-    public int[] bowls = new int[21];
-    public int bowlIndex = 1;
-
-    public static Action NextAction(List<int> pinFalls)
-    {
-        ActionMaster am = new ActionMaster();
-        Action currentAction = new Action();
-
-        foreach(int pinFall in pinFalls)
-        {
-            currentAction = am.Bowl(pinFall);
-        }
-        return currentAction;
-    }
-
-    private Action Bowl(int pins)
-    {
-        // Guard
-        if(pins < 0 || pins > 10)
-        {
-            throw new Exception("Pin number should be between 0 and 10, both include.");
-        }
-        // Behaviour
-        bowls[bowlIndex - 1] = pins;
-
-        if(bowlIndex == 21)
-        {
-            return Action.EndGame;
-        }
-
-        if(bowlIndex == 19 && pins == 10)
-        {
-            bowlIndex += 1;
-            return Action.Reset;
-        }
-        else if (bowlIndex == 20)
-        {
-            bowlIndex += 1;
-            if(bowls[19 - 1] == 10 && bowls[20 - 1] != 10)
-            {
-                return Action.Tidy;
-            }
-            else if (AreAllPinsKnockedDown())
-            {
-                return Action.Reset;
-            }
-            else if (IsBowl21Awarded())
-            {
-                return Action.Tidy;
-            }
-            else return Action.EndGame;
-        }
-
-
-        // First bowl in each frame
-        if(bowlIndex % 2 != 0)
-        {
-            if (pins == 10)
-            {
-                bowlIndex += 2;
-                return Action.EndTurn;
-            }
-            else
-            {
-                bowlIndex += 1;
-                return Action.Tidy;
-            }
-        }
-        // Second bowl in each frame
-        else
-        {
-            bowlIndex += 1;
-            return Action.EndTurn;
-        }
-    }
-
-    private bool AreAllPinsKnockedDown()
-    {
-        return (bowls[19 - 1] + bowls[20 - 1]) == 20 || (bowls[19 - 1] + bowls[20 - 1]) == 10;
-    }
-
-    private bool IsBowl21Awarded()
-    {
-        return bowls[19 - 1] + bowls[20 - 1] > 10;
-    }
+public static class ActionMaster {
+	public enum Action {Tidy, Reset, EndTurn, EndGame, Undefined};
+	
+	public static Action NextAction (List<int> rolls) {
+		Action nextAction = Action.Undefined;
+		
+		for (int i = 0; i < rolls.Count; i++) { // Step through rolls
+			
+			if (i == 20) {
+				nextAction = Action.EndGame;
+			} else if ( i >= 18 && rolls[i] == 10 ){ // Handle last-frame special cases
+				nextAction = Action.Reset;
+			} else if ( i == 19 ) {
+				if (rolls[18]==10 && rolls[19]==0) {
+					nextAction = Action.Tidy;
+				} else if (rolls[18] + rolls[19] == 10) {
+					nextAction = Action.Reset;
+				} else if (rolls [18] + rolls[19] >= 10) {  // Roll 21 awarded
+					nextAction = Action.Tidy;
+				} else {
+					nextAction = Action.EndGame;
+				}
+			} else if (i % 2 == 0) { // First bowl of frame
+				if (rolls[i] == 10) {
+					rolls.Insert (i, 0); // Insert virtual 0 after strike
+					nextAction = Action.EndTurn;
+				} else {
+					nextAction = Action.Tidy;
+				}
+			} else { // Second bowl of frame
+				nextAction = Action.EndTurn;
+			}
+		}
+		
+		return nextAction;
+	}
 }
